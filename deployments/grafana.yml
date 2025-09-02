@@ -43,6 +43,12 @@ spec:
         supplementalGroups:
           - 0
       containers:
+        - name: loki
+          image: grafana/loki:latest
+          ports:
+            - containerPort: 3100
+              name: http-loki
+              protocol: TCP
         - name: grafana
           image: grafana/grafana:latest
           imagePullPolicy: IfNotPresent
