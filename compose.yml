@@ -18,18 +18,6 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
 
-  myapp:
-    image: openjdk:21-jdk
-    container_name: myapp
-    environment:
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
-      MY_TEST_VAR: "Hello World"
-    entrypoint: java -javaagent:/var/local/otel-agent.jar -jar /var/local/myapp.jar
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./build/libs:/var/local
-
   otel-collector:
     image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:latest
     container_name: otel-collector
@@ -41,4 +29,18 @@ services:
       - ./otel-collector-config.yml:/otel-collector-config.yaml
     ports:
       - "4318" # OTLP HTTP port
+
+  myapp:
+    image: openjdk:21-jdk
+    container_name: myapp
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+      MY_TEST_VAR: "Hello World"
+    entrypoint: java -javaagent:/var/local/otel-agent.jar -jar /var/local/myapp.jar
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./build/libs:/var/local
+    depends_on:
+      - otel-collector
 
