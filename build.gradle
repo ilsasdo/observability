@@ -15,7 +15,13 @@ bootJar {
     archiveFileName = "myapp.jar"
 }
 
+configurations {
+    otelAgent
+}
+
 dependencies {
+    otelAgent("io.opentelemetry.javaagent:opentelemetry-javaagent:2.19.0")
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
@@ -25,4 +31,11 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+tasks.register('copyAgent', Copy) {
+    from(configurations.otelAgent) {
+        rename '.*.jar', 'otel-agent.jar'
+    }
+    into "${rootDir}/build/libs"
 }

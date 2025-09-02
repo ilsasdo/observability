@@ -13,13 +13,15 @@ spec:
         app: myapp
     spec:
       containers:
+        - name: otel-collector
+          image: otel/opentelemetry-collector-contrib:0.133.0
         - name: myapp
           image: openjdk:21-jdk
           volumeMounts:
             - mountPath: /var/local
               name: myapp-volume
               readOnly: true
-          command: ["java", "-jar", "/var/local/myapp.jar"]
+          command: ["java", "-javaagent:/var/local/otel-agent.jar", "-jar", "/var/local/myapp.jar"]
       volumes:
         - name: myapp-volume
           hostPath:
