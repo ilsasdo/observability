@@ -5,16 +5,30 @@ services:
     ports:
       - "3100:3100"
     volumes:
-      - ./loki-data:/loki
-      - ./loki-config.yml:/etc/loki/local-config.yaml
+      - ./data/loki:/loki
+      - ./config/loki/loki-config.yml:/etc/loki/local-config.yaml
+
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./config/tempo/tempo.yaml:/etc/tempo.yaml
+      - ./data/tempo:/var/tempo
+    ports:
+      - "3200" # tempo
+      - "4317" # otlp grpc
 
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
+    volumes:
+      - ./data/grafana:/var/lib/grafana
     ports:
       - "3000:3000"
     depends_on:
       - loki
+      - tempo
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
 
@@ -25,20 +39,31 @@ services:
       - "--config=/otel-collector-config.yaml"
     depends_on:
       - loki
+      - tempo
     volumes:
-      - ./otel-collector-config.yml:/otel-collector-config.yaml
+      - ./config/otel-collector/otel-collector-config.yml:/otel-collector-config.yaml
     ports:
       - "4318" # OTLP HTTP port
 
-  myapp:
+  galactic-empire:
     image: openjdk:21-jdk
-    container_name: myapp
+    container_name: galactic-empire
     environment:
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
-      MY_TEST_VAR: "Hello World"
-    entrypoint: java -javaagent:/var/local/otel-agent.jar -jar /var/local/myapp.jar
+    entrypoint: java -javaagent:/var/local/otel-agent.jar -jar /var/local/galactic-empire.jar
     ports:
       - "8080:8080"
+    volumes:
+      - ./build/libs:/var/local
+    depends_on:
+      - otel-collector
+
+  clone-factory:
+    image: openjdk:21-jdk
+    container_name: clone-factory
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+    entrypoint: java -javaagent:/var/local/otel-agent.jar -jar /var/local/clone-factory.jar
     volumes:
       - ./build/libs:/var/local
     depends_on:

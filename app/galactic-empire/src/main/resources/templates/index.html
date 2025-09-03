@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Emperor Dashboard</title>
+</head>
+<body>
+
+<div id="app">
+  <form method="POST" action="/order-clones">
+    <input type="submit" value="Order Clones" />
+    <p th:if="${name != null}" th:text="|Hello, ${name}!|" />
+    <p th:if="${error != null}" th:text="|${error}!|" />
+  </form>
+</div>
+</body>
+</html>

@@ -1,7 +1,5 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.1.4'
-    id "io.spring.dependency-management" version '1.1.3'
 }
 
 group = 'org.example'
@@ -11,26 +9,27 @@ repositories {
     mavenCentral()
 }
 
-bootJar {
-    archiveFileName = "myapp.jar"
-}
-
 configurations {
     otelAgent
 }
 
 dependencies {
     otelAgent("io.opentelemetry.javaagent:opentelemetry-javaagent:2.19.0")
-
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 test {
     useJUnitPlatform()
+}
+
+tasks.register("copyApps", Copy) {
+    subprojects.each { subproject ->
+        dependsOn(":${subproject.projectDir.getName()}:build")
+        from("${subproject.projectDir}/build/libs") {
+            include "app.jar"
+            rename ".*app.jar", "${subproject.projectDir.getName()}.jar"
+        }
+        into "${rootDir}/build/libs"
+    }
 }
 
 tasks.register('copyAgent', Copy) {
@@ -39,3 +38,6 @@ tasks.register('copyAgent', Copy) {
     }
     into "${rootDir}/build/libs"
 }
+
+build.finalizedBy("copyAgent")
+build.finalizedBy("copyApps")

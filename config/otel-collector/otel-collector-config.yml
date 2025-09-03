@@ -8,6 +8,10 @@ processors:
   batch:
 
 exporters:
+  otlp:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
   otlphttp/loki:
     endpoint: http://loki:3100/otlp
     tls:
@@ -16,7 +20,10 @@ exporters:
 
 service:
   pipelines:
+    traces:
+      receivers: [ otlp ]
+      exporters: [ otlp ]
     logs:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [otlphttp/loki, debug]
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ otlphttp/loki, debug ]

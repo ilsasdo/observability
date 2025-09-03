@@ -1,1 +1,6 @@
 rootProject.name = 'observability'
+include("galactic-empire")
+project(":galactic-empire").projectDir = file("app/galactic-empire")
+
+include("clone-factory")
+project(":clone-factory").projectDir = file("app/clone-factory")
