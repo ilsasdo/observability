@@ -45,17 +45,31 @@ services:
     ports:
       - "4318" # OTLP HTTP port
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./config/prometheus/prometheus.yml:/prometheus.yml
+    command:
+      - "--config.file=/prometheus.yml"
+      - "--web.enable-otlp-receiver"
+
   galactic-empire:
     image: openjdk:21-jdk
     container_name: galactic-empire
     environment:
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+      OTEL_METRICS_EXPORTER: otlp
+#      OTEL_EXPORTER_PROMETHEUS_HOST: 0.0.0.0 # Default value
+#      OTEL_EXPORTER_PROMETHEUS_PORT: 9464 # Default value
     entrypoint: java -javaagent:/var/local/otel-agent.jar -jar /var/local/galactic-empire.jar
     ports:
       - "8080:8080"
+      - "9464:9464"
     volumes:
       - ./build/libs:/var/local
     depends_on:
+      - rabbitmq
       - otel-collector
 
   clone-factory:
@@ -67,6 +81,7 @@ services:
     volumes:
       - ./build/libs:/var/local
     depends_on:
+      - rabbitmq
       - otel-collector
 
   rabbitmq:

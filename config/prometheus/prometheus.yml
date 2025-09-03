@@ -1,0 +1,18 @@
+# my global config
+global:
+  evaluation_interval: 5s # Evaluate rules every 5 seconds. The default is every 1 minute.
+
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'otel-collector'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['otel-collector:9090']
+
+storage:
+  # OTLP is a push-based protocol, Out of order samples is a common scenario.
+  tsdb:
+    out_of_order_time_window: 30m

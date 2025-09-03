@@ -8,6 +8,12 @@ processors:
   batch:
 
 exporters:
+  prometheus:
+    endpoint: 0.0.0.0:9090
+    send_timestamps: true
+    metric_expiration: 180m
+    resource_to_telemetry_conversion:
+      enabled: true
   otlp:
     endpoint: tempo:4317
     tls:
@@ -17,13 +23,17 @@ exporters:
     tls:
       insecure: true
   debug:
+    verbosity: detailed
 
 service:
   pipelines:
+    metrics:
+      receivers: [ otlp ]
+      exporters: [ prometheus, debug ]
     traces:
       receivers: [ otlp ]
       exporters: [ otlp ]
     logs:
       receivers: [ otlp ]
       processors: [ batch ]
-      exporters: [ otlphttp/loki, debug ]
+      exporters: [ otlphttp/loki ]
