@@ -11,7 +11,13 @@ colima start --network-address
 
 ## What is OpenTelemetry
 
-1. names
+1. framework, standard, specification
+2. collects data from different sources
+   3. baggage, context, traces, metrics, logs
+3. exporters: prometheus, jaeger, zipkin, otlp, ...
+4. processors: batch, filter, ...
+5. receivers: jaeger, otlp, ...
+6. pipelines: ...
 
 ## Components
 
@@ -31,6 +37,8 @@ colima start --network-address
 2. TraceID in log: `logging.pattern.level=trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %5p`
 3. Custom Span in Code
 4. Disable some autoinstrumentations
+5. rabbit, mysql, otelcollector metrics
+6. grafana dashboards
 
 ## Resources
 
@@ -39,4 +47,4 @@ colima start --network-address
 ## Issues
 
 1. beware collecting too many things... on long lasting sessions it will overflow tempo limits.
-2. 
+2. beware of tracing with baggage: it can lead to data leak.

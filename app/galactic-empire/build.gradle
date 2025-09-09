@@ -19,6 +19,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    implementation("com.mysql:mysql-connector-j:8.4.0")
+    implementation 'org.flywaydb:flyway-mysql'
+
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     testImplementation platform('org.junit:junit-bom:5.10.0')

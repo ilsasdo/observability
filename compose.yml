@@ -74,6 +74,8 @@ services:
   mysql:
     image: mysql:8.4.6
     container_name: mysql
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: devfest2025

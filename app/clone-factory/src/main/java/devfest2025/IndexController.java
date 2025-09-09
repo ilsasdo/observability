@@ -1,6 +1,5 @@
 package devfest2025;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,29 +22,11 @@ public class IndexController {
 
     private Clone slowMethod1() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1);
             return slowCloneFactory.createClone();
         } catch (InterruptedException e) {
-            return new Clone("Error");
+            throw new RuntimeException(e);
         }
     }
 
-    public static class Clone {
-        private String name;
-
-        public Clone(String name) {
-            this.name = name;
-        }
-
-        public Clone() {
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
 }
