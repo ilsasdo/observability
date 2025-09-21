@@ -1,4 +1,9 @@
 receivers:
+  rabbitmq:
+    endpoint: http://rabbitmq:15672
+    username: guest
+    password: guest
+    collection_interval: 1s
   otlp:
     protocols:
       http:
@@ -28,7 +33,7 @@ exporters:
 service:
   pipelines:
     metrics:
-      receivers: [ otlp ]
+      receivers: [ otlp, rabbitmq ]
       exporters: [ prometheus ]
     traces:
       receivers: [ otlp ]

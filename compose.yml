@@ -45,6 +45,7 @@ services:
     command:
       - "--config.file=/prometheus.yml"
       - "--web.enable-remote-write-receiver"
+      - "--enable-feature=native-histograms"
 
   otel-collector:
     image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.134.1
