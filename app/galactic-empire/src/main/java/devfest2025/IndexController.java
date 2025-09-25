@@ -32,11 +32,24 @@ public class IndexController {
         if (clone == null) {
             log.error("Clone could not be built");
             model.addAttribute("error", "No clone built!");
-            return "index";
+            return "redirect:index";
         }
         log.info("Clone built: {}", clone.getName());
         model.addAttribute("name", clone.getName());
-        return "index";
+        return "redirect:index";
+    }
+
+    @RequestMapping(value = "/order-more-clones", method = RequestMethod.POST)
+    public String moreClones(Model model) {
+        Clone clone = restTemplate.getForEntity(cloneFactoryUrl + "/build-clone", Clone.class).getBody();
+        if (clone == null) {
+            log.error("Clone could not be built");
+            model.addAttribute("error", "No clone built!");
+            return "redirect:index";
+        }
+        log.info("Clone built: {}", clone.getName());
+        model.addAttribute("name", clone.getName());
+        return "redirect:index";
     }
 
     public static class Clone {
