@@ -7,10 +7,20 @@
 <body>
 
 <div id="app">
+  <h1>The Emperor New Clone Dashboard</h1>
+  <hr/>
+  <p><strong>Total Clone count</strong>: <span th:text="${count}"></span></p>
+  <hr/>
   <form method="POST" action="/order-clones">
     <input type="submit" value="Order Clones" />
     <p th:if="${name != null}" th:text="|Hello, ${name}!|" />
     <p th:if="${error != null}" th:text="|${error}!|" />
+  </form>
+  <hr/>
+  <form method="POST" action="/order-more-clones">
+    <input type="submit" value="More Clones!" />
+    <p th:text="|Successful clone built:, ${successCount}|" />
+    <p th:text="|Errors: ${errorsCount}|" />
   </form>
 </div>
 </body>
