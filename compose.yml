@@ -91,6 +91,7 @@ services:
     container_name: galactic-empire
     environment:
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+      OTEL_METRIC_EXPORT_INTERVAL: 1s
     entrypoint: java -javaagent:/var/local/otel-agent.jar -jar /var/local/galactic-empire.jar
     ports:
       - "8080:8080"
@@ -106,6 +107,7 @@ services:
     container_name: clone-factory
     environment:
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+      OTEL_METRIC_EXPORT_INTERVAL: 1s
     entrypoint: java -javaagent:/var/local/otel-agent.jar -jar /var/local/clone-factory.jar
     volumes:
       - ./build/libs:/var/local

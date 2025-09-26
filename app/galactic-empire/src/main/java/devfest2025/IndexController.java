@@ -1,5 +1,6 @@
 package devfest2025;
 
+import io.opentelemetry.api.GlobalOpenTelemetry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -54,6 +55,7 @@ public class IndexController {
         log.info("Clone built: {}", clone.getName());
         model.addAttribute("name", clone.getName());
         model.addAttribute("count", cloneRepository.count());
+
         return "index";
     }
 

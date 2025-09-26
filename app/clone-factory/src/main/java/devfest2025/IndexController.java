@@ -17,16 +17,7 @@ public class IndexController {
     @GetMapping("/build-clone")
     public Clone buildClone() {
         rabbitTemplate.convertAndSend(CloneFactory.topicExchangeName, "foo.bar.baz", "Yes Emperor, we are working!");
-        return slowMethod1();
-    }
-
-    private Clone slowMethod1() {
-        try {
-            Thread.sleep(1);
-            return slowCloneFactory.createClone();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        return slowCloneFactory.createClone();
     }
 
 }
