@@ -78,3 +78,13 @@ colima start --network-address
 17. Problemi:
     1. beware collecting too many things... on long lasting sessions it will overflow tempo limits.
     2. beware of tracing with baggage: it can lead to data leak.
+
+
+1. show all the stack
+2. start it
+3. no logs shows
+4. configure otel-collector
+5. configure autoinstrumentation
+6. show logs/telemetry
+7. show how to add custom span
+8. show how to add custom metrics 
