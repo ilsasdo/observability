@@ -1,6 +1,5 @@
 package devfest2025;
 
-import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -13,14 +12,8 @@ public class CloneFactoryService {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(CloneFactoryService.class);
     private final CloneRepository cloneRepository;
 
-    private final io.opentelemetry.api.metrics.LongCounter savedClonesCounter;
-
     public CloneFactoryService(CloneRepository cloneRepository) {
         this.cloneRepository = cloneRepository;
-        io.opentelemetry.api.metrics.Meter meter = GlobalOpenTelemetry.getMeter("clone-factory");
-        this.savedClonesCounter = meter.counterBuilder("saved_clones")
-            .setDescription("Number of clones saved")
-            .build();
     }
 
     @Transactional
@@ -39,7 +32,6 @@ public class CloneFactoryService {
 
             log.info("New clone is now ready");
             Clone savedClone = cloneRepository.save(clone);
-            savedClonesCounter.add(1);
             return savedClone;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
