@@ -2,21 +2,20 @@ package devfest2025;
 
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
-import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class SlowCloneFactory {
+public class CloneFactoryService {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(SlowCloneFactory.class);
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(CloneFactoryService.class);
     private final CloneRepository cloneRepository;
 
     private final io.opentelemetry.api.metrics.LongCounter savedClonesCounter;
 
-    public SlowCloneFactory(CloneRepository cloneRepository) {
+    public CloneFactoryService(CloneRepository cloneRepository) {
         this.cloneRepository = cloneRepository;
         io.opentelemetry.api.metrics.Meter meter = GlobalOpenTelemetry.getMeter("clone-factory");
         this.savedClonesCounter = meter.counterBuilder("saved_clones")

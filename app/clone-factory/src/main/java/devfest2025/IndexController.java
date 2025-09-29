@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexController {
     private final RabbitTemplate rabbitTemplate;
-    private final SlowCloneFactory slowCloneFactory;
+    private final CloneFactoryService slowCloneFactory;
 
-    public IndexController(RabbitTemplate rabbitTemplate, SlowCloneFactory slowCloneFactory) {
+    public IndexController(RabbitTemplate rabbitTemplate, CloneFactoryService slowCloneFactory) {
         this.rabbitTemplate = rabbitTemplate;
         this.slowCloneFactory = slowCloneFactory;
     }
