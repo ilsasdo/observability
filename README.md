@@ -86,5 +86,7 @@ colima start --network-address
 4. configure otel-collector
 5. configure autoinstrumentation
 6. show logs/telemetry
-7. show how to add custom span
-8. show how to add custom metrics 
+7. show slow traces
+8. show exception events
+9. show how to add custom span
+10. show how to add custom metrics 
