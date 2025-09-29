@@ -47,20 +47,6 @@ services:
       - "--web.enable-remote-write-receiver"
       - "--enable-feature=native-histograms"
 
-  otel-collector:
-    image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.134.1
-    container_name: otel-collector
-    command:
-      - "--config=/otel-collector-config.yaml"
-    depends_on:
-      - loki
-      - tempo
-    volumes:
-      - ./config/otel-collector/otel-collector-config.yml:/otel-collector-config.yaml
-    ports:
-      - "4318" # OTLP HTTP port
-      - "9090:9090"
-
 
 #
 # Infra
@@ -89,30 +75,22 @@ services:
   galactic-empire:
     image: openjdk:21-jdk
     container_name: galactic-empire
-    environment:
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
-      OTEL_METRIC_EXPORT_INTERVAL: 1s
-    entrypoint: java -javaagent:/var/local/otel-agent.jar -jar /var/local/galactic-empire.jar
+    entrypoint: java -jar /var/local/galactic-empire.jar
     ports:
       - "8080:8080"
     volumes:
       - ./build/libs:/var/local
     depends_on:
       - rabbitmq
-      - otel-collector
       - mysql
 
   clone-factory:
     image: openjdk:21-jdk
     container_name: clone-factory
-    environment:
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
-      OTEL_METRIC_EXPORT_INTERVAL: 1s
-    entrypoint: java -javaagent:/var/local/otel-agent.jar -jar /var/local/clone-factory.jar
+    entrypoint: java -jar /var/local/clone-factory.jar
     volumes:
       - ./build/libs:/var/local
     depends_on:
       - rabbitmq
-      - otel-collector
       - mysql
 
