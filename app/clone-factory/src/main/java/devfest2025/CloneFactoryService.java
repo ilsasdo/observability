@@ -26,10 +26,6 @@ public class CloneFactoryService {
             clone.setName(RandomStringUtils.randomAlphabetic(10));
             clone.setPlanet("Coruscant");
 
-            if (Math.random() < 0.3) {
-                throw new RuntimeException("Clone creation failed");
-            }
-
             log.info("New clone is now ready");
             Clone savedClone = cloneRepository.save(clone);
             return savedClone;
