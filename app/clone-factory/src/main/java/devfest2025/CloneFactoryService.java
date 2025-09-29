@@ -17,18 +17,13 @@ public class CloneFactoryService {
 
     @Transactional
     public Clone createClone() {
-        try {
-            log.info("Working hard to create a clone");
-            Thread.sleep(1_000); // ah-ah! the Rebels were here slowing us down!
-            Clone clone = new Clone();
-            clone.setName(RandomStringUtils.randomAlphabetic(10));
-            clone.setPlanet("Coruscant");
+        log.info("Working hard to create a clone");
+        Clone clone = new Clone();
+        clone.setName(RandomStringUtils.randomAlphabetic(10));
+        clone.setPlanet("Coruscant");
 
-            log.info("New clone is now ready");
-            Clone savedClone = cloneRepository.save(clone);
-            return savedClone;
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        log.info("New clone is now ready");
+        Clone savedClone = cloneRepository.save(clone);
+        return savedClone;
     }
 }
