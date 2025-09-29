@@ -1,6 +1,5 @@
 package devfest2025;
 
-import io.opentelemetry.instrumentation.annotations.WithSpan;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ public class CloneFactoryService {
     }
 
     @Transactional
-    @WithSpan("creating-a-new-clone")
     public Clone createClone() {
         try {
             log.info("Working hard to create a clone");
