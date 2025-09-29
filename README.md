@@ -89,4 +89,4 @@ colima start --network-address
 7. show slow traces
 8. show exception events
 9. show how to add custom span
-10. show how to add custom metrics 
+10. show how to add custom metrics -> CloneFactoryService
