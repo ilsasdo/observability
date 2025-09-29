@@ -24,6 +24,7 @@ public class CloneFactoryService {
             clone.setName(RandomStringUtils.randomAlphabetic(10));
             clone.setPlanet("Coruscant");
 
+            // Rebels Jamming!
             if (Math.random() < 0.3) {
                 throw new RuntimeException("Clone creation failed");
             }
