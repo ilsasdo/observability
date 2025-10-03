@@ -28,7 +28,7 @@ public class CloneFactoryService {
     public Clone createClone() {
         try {
             log.info("Working hard to create a clone");
-            Thread.sleep(1_000); // ah-ah! the Rebels were here slowing us down!
+            Thread.sleep((long) (Math.random() * 2_000)); // ah-ah! the Rebels were here slowing us down!
             Clone clone = new Clone();
             clone.setName(RandomStringUtils.randomAlphabetic(10));
             clone.setPlanet("Coruscant");
