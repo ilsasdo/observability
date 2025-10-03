@@ -11,6 +11,11 @@ receivers:
 
 processors:
   batch:
+#  filter:
+#    error_mode: ignore
+#    traces:
+#      span:
+#        - attributes["http.request.method"] == nil
 
 exporters:
   prometheus:
@@ -37,6 +42,7 @@ service:
       exporters: [ prometheus ]
     traces:
       receivers: [ otlp ]
+#      processors: [ filter ]
       exporters: [ otlp ]
     logs:
       receivers: [ otlp ]
